@@ -1,5 +1,5 @@
 # Pokedex
-Simple Pokedex to learn redux
+Simple Pokedex to learn redux and typeScript
 
 # Libraries
 
