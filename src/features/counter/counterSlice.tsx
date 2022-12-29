@@ -5,7 +5,7 @@ interface counterState{
 }
 
 const initialState: counterState = {
-    value: 0
+    value: 1
 }
 
 const counterSlice = createSlice ({
@@ -13,18 +13,33 @@ const counterSlice = createSlice ({
     initialState,
     reducers: {
         increment: (state) =>{
+            if(state.value>897){
+                state.value = 898
+                return
+            }
             state.value++
         },
         decrement: (state) =>{
+            if(state.value<2){
+                return state
+            }
             state.value--
         },
         //Tenemos una función que permite incrementar el numero en la dimensión cargada dentro de payload
         incrementByAmount: (state, action: PayloadAction<number>) =>{
-            state.value += action.payload
+            if(state.value + action.payload > 897){
+                state.value = 898
+            }else{
+                state.value += action.payload
+            }
         },
          //Tenemos una función que permite decrementar el numero en la dimensión cargada dentro de payload
         decrementByAmount: (state, action: PayloadAction<number>) =>{
-            state.value -= action.payload
+            if(state.value - action.payload < 2){
+                state.value = 1
+                return 
+            }
+                state.value -= action.payload
         },
         reset: (state) => {
             state.value = 0

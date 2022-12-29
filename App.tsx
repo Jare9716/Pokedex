@@ -1,6 +1,6 @@
 import React, {type PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
+  View,
   Text,
 } from 'react-native';
 
@@ -8,16 +8,16 @@ import { Provider } from 'react-redux';
 import { store } from './src/app/store'
 import Counter from './src/components/Counter';
 import ButtonRedux from './src/components/ButtonRedux';
- 
+import PokemonList from './src/components/PokemonList';
+
 const App = () => {
 
 
   return (
     <Provider store={store}>
-      <SafeAreaView>
-        <Counter/>
-        <ButtonRedux/>
-      </SafeAreaView>
+      <View>
+        <PokemonList/>
+      </View>
     </Provider>
   );
 };
