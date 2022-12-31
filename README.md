@@ -7,6 +7,7 @@ This project has the next libraryes:
 
 1. @reduxjs/toolkit
 2. react-redux
+3. 
 
 ***Don't forget to install all the libraries and dependencies to run the project***
 
