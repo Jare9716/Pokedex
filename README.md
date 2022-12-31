@@ -13,7 +13,7 @@ This project has the next libraryes:
 
 # Images
 
-<img src="ImageApp/Screenshot_1668728673.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
+<img src="/src/images/SC-1.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
 <img src="ImageApp/Screenshot_1668728678.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
 <img src="ImageApp/Screenshot_1668728740.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
 
