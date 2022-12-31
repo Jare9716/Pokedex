@@ -11,13 +11,13 @@ const PokemonList = () =>{
 
     const dispatch = useAppDispatch()
     const currentPokemon = useAppSelector(state => state.pokemon)
-    const counter = useAppSelector(state => state.counter)
+    const counter = useAppSelector(state => state.counter.value)
 
     useEffect(()=>{
         const fetchPokemon = async () =>{
             const api = new PokemonClient()
             await api
-            .getPokemonById(4)
+            .getPokemonById(counter)
             .then(pokemon =>{
                 const currentPokemonStats: Stats = {
                     hp: pokemon.stats[0].base_stat,
@@ -66,18 +66,241 @@ const PokemonList = () =>{
         dispatch(decrementByAmount(value))
     }
 
+    const StatLine = (props:{ number: number | undefined; type: string | undefined;})=>{
+        return(
+            <View 
+                style={{
+                    width: props.number ? props.number > 199? props.number-20 : props.number : props.number,
+                    marginVertical: 6,
+                    height: 5,
+                    marginLeft: 10,
+                    borderRadius: 5,
+                    backgroundColor: Colors[props.type?.toString() as keyof typeof Colors]
+                }}
+            >
+            </View>
+        )
+    }
 
     return (
-        <View style = {{backgroundColor: currentPokemon.color, height: '100%'}}>
+        <View style = {[styles.container, {backgroundColor: currentPokemon.color }]}>
             <StatusBar 
                 barStyle={"light-content"}
                 backgroundColor={currentPokemon.color}
             />
-            <Text>
-                {currentPokemon.height}
-            </Text>
+            <Image
+                style={styles.pokeball}
+                source={require('../images/Pokeball.png')}
+            />
+            <View style={styles.whiteSheet}></View>
+            <SafeAreaView>
+                {/* Nombre y ID del pokemon */}
+                <View style={styles.row}>
+                    <Text style={styles.pokemonName}>{currentPokemon.name.charAt(0).toLocaleUpperCase() + currentPokemon.name.slice(1)}</Text>
+                    <Text style={[styles.pokemonName, {textAlign: 'right', marginRight: 20, fontSize: 25}]}>#{currentPokemon.id}</Text>
+                </View>
+                {/* Botones e Imagen del pokemon */}
+                <View style={[styles.row,{height: 250}]}>
+                    <View>
+                        <TouchableOpacity style={styles.button} onPress={handlePrevButton}>
+                            <Text style={styles.buttonText}>⬅️</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => handleDecrementByAmount(100)}>
+                            <Text style={styles.buttonText}>⏮</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Image
+                        style={styles.pokemonImage}
+                        source={{uri: currentPokemon.image}}
+                    />
+                     <View>
+                        <TouchableOpacity style={styles.button} onPress={handleNextButton}>
+                            <Text style={styles.buttonText}>➡️</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => handleIncrementByAmount(100)}>
+                            <Text style={styles.buttonText}>⏭</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                {/* Pokemon Type */}
+                <View style={[styles.pokemonTypeContainer, {alignSelf: 'center', backgroundColor:currentPokemon.color}]}>
+                    <Text style={styles.type}>{currentPokemon.type}</Text>
+                </View>
+                {/* Pokemon Information */}
+                <View>
+                    <Text style={[styles.about, {color: currentPokemon.color}]}>About</Text>
+                    <View style={[styles.row, {justifyContent: 'center', marginTop: 20}]}>
+                        <View style={{alignItems: 'center', marginHorizontal: 10}}>
+                            <Text>
+                                ⚖️{' '}
+                                {currentPokemon.weight?.toString().slice(0, currentPokemon.weight.toString().length-1)}
+                                .
+                                {currentPokemon.weight?.toString().slice(currentPokemon.weight.toString().length-1, currentPokemon.weight.toString().length)}
+                                {' '}kg
+                            </Text>
+                            <Text
+                                style={{color: Colors.mediumGray, fontSize: 12, marginTop: 10}}>
+                                Weight
+                            </Text>
+                        </View>
+                        <View style={{alignItems: 'center', marginHorizontal: 10}}>
+                            <Text>
+                                📏{' '}
+                                {currentPokemon.height?.toString().slice(0, currentPokemon.height.toString().length - 1)}
+                                .
+                                {currentPokemon.height?.toString().slice(currentPokemon.height.toString().length - 1,currentPokemon.height.toString().length,
+                                )}{' '}m
+                            </Text>
+                            <Text
+                                style={{color: Colors.mediumGray, fontSize: 12, marginTop: 10}}>
+                                Height
+                            </Text>
+                        </View>
+                        <View style={{alignItems: 'center', marginHorizontal: 10}}>
+                            <Text>{currentPokemon.move}</Text>
+                            <Text
+                                style={{color: Colors.mediumGray, fontSize: 12, marginTop: 10}}>
+                                Move
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+                {/* Pokemon Abilites */}
+                <View>
+                    <Text style={[styles.baseStyles, {color: currentPokemon.color}]}>Base Stats</Text>
+                    <View style={[styles.row, {justifyContent:'flex-start',marginHorizontal:30,marginTop:20}]}>
+                        <View style={{alignItems: 'flex-end', marginEnd: 10}}>
+                            <Text>HP</Text>
+                            <Text>Attack</Text>
+                            <Text>Defense</Text>
+                            <Text>Special Attack</Text>
+                            <Text>Special Defence</Text>
+                            <Text>Speed</Text>
+                        </View>
+                        <View style={{height:100, width:2,backgroundColor: Colors.lightGray, marginRight:10}}>
+                        </View>
+                        <View>
+                            <Text>{currentPokemon.stats?.hp} </Text>
+                            <Text>{currentPokemon.stats?.attack} </Text>
+                            <Text>{currentPokemon.stats?.defense}</Text>
+                            <Text>{currentPokemon.stats?.specialAttack}</Text>
+                            <Text>{currentPokemon.stats?.specialDefense}</Text>
+                            <Text>{currentPokemon.stats?.speed}</Text>
+                        </View>
+                        <View>
+                            <StatLine
+                                number={currentPokemon.stats?.hp}
+                                type={currentPokemon.type}
+                            />
+                            <StatLine
+                                number={currentPokemon.stats?.attack}
+                                type={currentPokemon.type}
+                            />
+                            <StatLine
+                                number={currentPokemon.stats?.defense}
+                                type={currentPokemon.type}
+                            />
+                            <StatLine
+                                number={currentPokemon.stats?.specialAttack}
+                                type={currentPokemon.type}
+                            />
+                            <StatLine
+                                number={currentPokemon.stats?.specialDefense}
+                                type={currentPokemon.type}
+                            />
+                            <StatLine
+                                number={currentPokemon.stats?.speed}
+                                type={currentPokemon.type}
+                            />
+                            
+                        </View>
+                    </View>
+                </View>
+                
+            </SafeAreaView>
         </View>
     )
 }
 
 export default PokemonList
+
+
+const  styles = StyleSheet.create({
+    container:{
+        height: '100%',
+        width: '100%',
+        backgroundColor: Colors.fire
+    },
+    pokeball:{
+        position: "absolute",
+        right: 20,
+        top: 50
+    },
+    pokemonName:{
+        fontSize: 35,
+        color: Colors.white,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        marginLeft: 20
+    },
+    pokemonImage:{
+        width: 200,
+        height: 200
+    },
+    button:{
+        width: 50,
+        height: 50,
+        backgroundColor: Colors.white + '70',
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10
+    },
+    buttonText:{
+        fontSize: 20,
+        color: Colors.black
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    type:{
+        color: Colors.white,
+        paddingHorizontal: 10,
+        fontWeight: 'bold',
+        fontSize: 16,
+        textAlign: 'center'
+    },
+    pokemonTypeContainer:{
+        height: 30,
+        borderRadius:50,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    whiteSheet:{
+        position: 'absolute',
+        bottom: 30,
+        left: 10,
+        borderRadius: 20,
+        backgroundColor: Colors.white,
+        width: '95%',
+        height: '60%'
+    },
+    about:{
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 20,
+        marginTop: 20,
+    },
+    baseStyles:{
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 20,
+    }
+
+})
