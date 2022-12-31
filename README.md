@@ -20,6 +20,3 @@ This project has the next libraryes:
 <img src="/src/images/SC-4.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
 <img src="/src/images/SC-5.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
 
-
-
-<img src="ImageApp/Screenshot_1668728871.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
