@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import { View,Text, StyleSheet, Image, Button, TouchableOpacity, useColorScheme, SafeAreaView, StatusBar } from "react-native";
+import { View,Text, StyleSheet, Image, Button, TouchableOpacity, useColorScheme, SafeAreaView, StatusBar, TextInput, Pressable, Keyboard} from "react-native";
 import { PokemonClient } from "pokenode-ts";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setPokemon } from "../features/pokemon/pokemonSlice";
-import { increment, decrement, incrementByAmount, decrementByAmount } from "../features/counter/counterSlice";
+import { increment, decrement, incrementByAmount, decrementByAmount, start } from "../features/counter/counterSlice";
 import Pokemon, {Stats} from "../models/pokemon";
 import { Colors } from "../colors";
 
@@ -13,6 +13,8 @@ const PokemonList = () =>{
     const currentPokemon = useAppSelector(state => state.pokemon)
     const counter = useAppSelector(state => state.counter.value)
 
+    const [pokemonNmae, setPokemonName] = useState("")
+    
     useEffect(()=>{
         const fetchPokemon = async () =>{
             const api = new PokemonClient()
@@ -65,14 +67,53 @@ const PokemonList = () =>{
     const handleDecrementByAmount = (value: number) =>{
         dispatch(decrementByAmount(value))
     }
+    const startValue = (value: number) =>{
+        dispatch(start(value))
+    }
 
+    const searchPokemon = async () =>{
+        const api = new PokemonClient()
+        await api
+        .getPokemonByName(pokemonNmae)
+        .then(pokemon =>{
+            const currentPokemonStats: Stats = {
+                hp: pokemon.stats[0].base_stat,
+                attack: pokemon.stats[1].base_stat,
+                defense: pokemon.stats[2].base_stat,
+                specialAttack: pokemon.stats[3].base_stat,
+                specialDefense: pokemon.stats[4].base_stat,
+                speed: pokemon.stats[5].base_stat,
+            }
+            const newPokemon: Pokemon ={
+                id: pokemon.id,
+                name: pokemon.name,
+                image: pokemon?.sprites?.front_default?.toString(),
+                height: pokemon.height,
+                weight: pokemon.weight,
+                type: pokemon?.types[0]?.type?.name?.toString(),
+                move: pokemon?.moves[0]?.move?.name?.toString(),
+                stats: currentPokemonStats,
+                color: 
+                    /* 
+                    Acá estamos indicando que el color se obtiene dependiendo del Pokemon y por tanto como estamos en typescrpt es necesario indicar que el valor 
+                    pertenece a la clase Colors a persar que este declarado como objeto en javascript
+                    */      
+                    Colors[pokemon?.types[0]?.type?.name?.toString() as keyof typeof Colors]
+            }
+            dispatch(setPokemon(newPokemon))
+            startValue(newPokemon.id)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
     const StatLine = (props:{ number: number | undefined; type: string | undefined;})=>{
         return(
             <View 
                 style={{
                     width: props.number ? props.number > 199? props.number-20 : props.number : props.number,
-                    marginVertical: 6,
-                    height: 5,
+                    marginVertical: 6.5,
+                    height: 6,
                     marginLeft: 10,
                     borderRadius: 5,
                     backgroundColor: Colors[props.type?.toString() as keyof typeof Colors]
@@ -94,13 +135,25 @@ const PokemonList = () =>{
             />
             <View style={styles.whiteSheet}></View>
             <SafeAreaView>
+                {/* Barra de busqueda */}
+                <TextInput
+                    style={styles.input}
+                    value={pokemonNmae }
+                    onChangeText={text => setPokemonName(text.toLocaleLowerCase())}
+                    placeholder={'Pokemon Name or ID'}
+                    textAlign='center'
+                />
+                {/* Boton de busqueda */}
+                <Pressable style={styles.pressable} onPress={()=>{searchPokemon(); Keyboard.dismiss()}}>
+                    <Text style={{textAlign:'center'}}>Search</Text>
+                </Pressable>
                 {/* Nombre y ID del pokemon */}
                 <View style={styles.row}>
                     <Text style={styles.pokemonName}>{currentPokemon.name.charAt(0).toLocaleUpperCase() + currentPokemon.name.slice(1)}</Text>
                     <Text style={[styles.pokemonName, {textAlign: 'right', marginRight: 20, fontSize: 25}]}>#{currentPokemon.id}</Text>
                 </View>
                 {/* Botones e Imagen del pokemon */}
-                <View style={[styles.row,{height: 250}]}>
+                <View style={[styles.row,{height: 190}]}>
                     <View>
                         <TouchableOpacity style={styles.button} onPress={handlePrevButton}>
                             <Text style={styles.buttonText}>⬅️</Text>
@@ -284,23 +337,39 @@ const  styles = StyleSheet.create({
     },
     whiteSheet:{
         position: 'absolute',
-        bottom: 30,
+        bottom: 20,
         left: 10,
         borderRadius: 20,
         backgroundColor: Colors.white,
         width: '95%',
-        height: '60%'
+        height: '54%'
     },
     about:{
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 20,
-        marginTop: 20,
+        marginTop: 10,
     },
     baseStyles:{
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 20,
+        marginTop: 15
+    },
+    input:{
+        backgroundColor: '#FFF',
+        padding: 3,
+        borderRadius: 10,
+        marginTop: 15,
+        width: 300,
+        marginHorizontal: 50
+    },
+    pressable:{
+        marginVertical: 6,
+        backgroundColor: Colors.lightGray,
+        paddingVertical: 5,
+        marginHorizontal: 150,
+        borderRadius: 10,
     }
 
 })
