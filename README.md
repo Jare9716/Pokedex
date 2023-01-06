@@ -20,8 +20,8 @@ This project has the next libraryes:
 <img src="/src/images/SC-4.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
 <img src="/src/images/SC-5.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
 
-<h2 align='center'>Update</h2>
+# Update
 
-<img src="/src/images/SC-1.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
-<img src="/src/images/SC-2.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
-<img src="/src/images/SC-3.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
+<img src="/src/images/SC-6.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
+<img src="/src/images/SC-7.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
+<img src="/src/images/SC-8.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
