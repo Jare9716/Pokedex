@@ -20,3 +20,8 @@ This project has the next libraryes:
 <img src="/src/images/SC-4.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
 <img src="/src/images/SC-5.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
 
+# Update
+
+<img src="/src/images/SC-6.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
+<img src="/src/images/SC-7.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
+<img src="/src/images/SC-8.png" alt="drawing" width="250"/> &nbsp;&nbsp;&nbsp;&nbsp;
