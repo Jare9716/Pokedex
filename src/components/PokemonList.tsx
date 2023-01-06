@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { View,Text, StyleSheet, Image, Button, TouchableOpacity, useColorScheme, SafeAreaView, StatusBar, TextInput, Pressable, Keyboard} from "react-native";
+import { View,Text, StyleSheet, Image, Appearance, TouchableOpacity, useColorScheme, SafeAreaView, StatusBar, TextInput, Pressable, Keyboard} from "react-native";
 import { PokemonClient } from "pokenode-ts";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setPokemon } from "../features/pokemon/pokemonSlice";
@@ -142,6 +142,7 @@ const PokemonList = () =>{
                     onChangeText={setPokemonName}
                     placeholder={'Pokemon Name or ID'}
                     textAlign='center'
+                    placeholderTextColor={'#808080'}
                 />
                 {/* Boton de busqueda */}
                 <Pressable style={styles.pressable} onPress={()=>{searchPokemon(); Keyboard.dismiss()}}>
@@ -363,7 +364,8 @@ const  styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 15,
         width: 300,
-        marginHorizontal: 50
+        marginHorizontal: 50,
+        color: '#000'
     },
     pressable:{
         marginVertical: 6,
