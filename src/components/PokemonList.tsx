@@ -74,7 +74,7 @@ const PokemonList = () =>{
     const searchPokemon = async () =>{
         const api = new PokemonClient()
         await api
-        .getPokemonByName(pokemonNmae)
+        .getPokemonByName(pokemonNmae.toLocaleLowerCase())
         .then(pokemon =>{
             const currentPokemonStats: Stats = {
                 hp: pokemon.stats[0].base_stat,
@@ -138,8 +138,8 @@ const PokemonList = () =>{
                 {/* Barra de busqueda */}
                 <TextInput
                     style={styles.input}
-                    value={pokemonNmae }
-                    onChangeText={text => setPokemonName(text.toLocaleLowerCase())}
+                    value={pokemonNmae}
+                    onChangeText={setPokemonName}
                     placeholder={'Pokemon Name or ID'}
                     textAlign='center'
                 />
@@ -330,6 +330,7 @@ const  styles = StyleSheet.create({
         textAlign: 'center'
     },
     pokemonTypeContainer:{
+        marginTop: 30,
         height: 30,
         borderRadius:50,
         alignItems: 'center',
@@ -337,12 +338,12 @@ const  styles = StyleSheet.create({
     },
     whiteSheet:{
         position: 'absolute',
-        bottom: 20,
+        marginTop: 310,
         left: 10,
         borderRadius: 20,
         backgroundColor: Colors.white,
         width: '95%',
-        height: '54%'
+        height: '55%'
     },
     about:{
         textAlign: 'center',
